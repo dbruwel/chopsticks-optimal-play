@@ -1,4 +1,6 @@
 # Optimal Play in Chopsticks
+**This project is a work in progress.**
+
 This is an independent research project, undertaken out of personal interest and curiosity. The repository is not a polished Python package, and the accompanying paper is incomplete and unreviewed. It contains exploratory ideas-many of which are rough or unfinished. The code reflects the development process and is not intended for reuse.
 
 ## Project Overview
