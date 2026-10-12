@@ -1,5 +1,7 @@
 # Optimal Play in Chopsticks
 
+> **A note on how this was made**: I wrote the original code and analysis in 2025. In October 2026 I came back to it to clean up and, with help from AI tools, restructured it into a package, added tests, docstrings and this write-up, so that anyone reading it can follow what I was thinking. That's why a large part of the repo arrives in one large commit. The ideas, original code and logic, results, and any mistakes are mine.
+
 This started after a game of chopsticks: is there any real strategy, or does the game just go round in circles until someone messes up? The game is small enough to brute-force, so rather than think about it too hard, I decided to simply checked with code.
 
 **Summary:** the second player can always force a win. Only 20 of the 382 reachable positions are draws, and they form one narrow loop that's very easy to fall off.
