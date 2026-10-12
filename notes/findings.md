@@ -48,7 +48,7 @@ their turn.
 Out of those 382 positions there are 1000 legal moves in total, 2.6 per position on
 average and never more than 6. The game is tiny.
 
-## Who wins?
+## winning conditions
 
 From each position we work out whether someone can **force** a win, meaning they win
 whatever the other player does. This is done backwards from the finished games
@@ -127,7 +127,7 @@ players who end up here would be at it forever.
 You can't get here from the opening without someone making a mistake, since the
 opening is a forced win for player 1.
 
-## What about normal players?
+## Random playing
 
 Simulating 10,000 games each:
 
@@ -143,7 +143,7 @@ advantage shows up even between two random players. And a perfect player always
 beats a random one, even when going first, because the random player falls out of
 its winning set almost straight away.
 
-## So, is there strategy?
+## Summary
 
 Yes, a bit more than I expected. Every position has a definite answer, going second
 is a forced win, and the draws all come down to one loop that's easy to fall out of.

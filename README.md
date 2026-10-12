@@ -1,6 +1,6 @@
 # Optimal Play in Chopsticks
 
-This started after a game of chopsticks with someone: is there any real strategy, or does the game just go round in circles until someone messes up? The game is small enough to brute-force, so rather than think about it too hard, I just checked with code.
+This started after a game of chopsticks: is there any real strategy, or does the game just go round in circles until someone messes up? The game is small enough to brute-force, so rather than think about it too hard, I decided to simply checked with code.
 
 **Summary:** the second player can always force a win. Only 20 of the 382 reachable positions are draws, and they form one narrow loop that's very easy to fall off.
 
@@ -62,7 +62,7 @@ start = ChopsticksGame()
 adjacency, nodes = build_adjacency_matrix(start)
 player_1 = compute_attractor(adjacency, nodes, player=1)
 
-print(f"Reachable states: {len(nodes)}")             # 382
+print(f"Reachable states: {len(nodes)}")  # 382
 print(f"Player 1 wins from the start in {player_1[0]} moves")  # 26
 ```
 
