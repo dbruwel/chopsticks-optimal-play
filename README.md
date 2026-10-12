@@ -2,7 +2,7 @@
 
 This started after a game of chopsticks with someone: is there any real strategy, or does the game just go round in circles until someone messes up? The game is small enough to brute-force, so rather than think about it too hard, I just checked with code.
 
-**The answer: the second player can always force a win.** Only 20 of the 382 reachable positions are draws, and they form one narrow loop that's very easy to fall off.
+**Summary:** the second player can always force a win. Only 20 of the 382 reachable positions are draws, and they form one narrow loop that's very easy to fall off.
 
 ![Every reachable position, coloured by who can force a win](notes/img/solved-game.png)
 
@@ -25,7 +25,7 @@ There's a bot that plays perfectly. It takes the fastest win when it has one, an
 
 ```bash
 pip install -e .
-chopsticks            # you go second, so you can win (if you find the line)
+chopsticks            # you go second, so you can win (if you play perfectly)
 chopsticks --first    # you go first, so you will lose
 chopsticks --hints    # shows who can force a win before each move
 ```
@@ -90,7 +90,7 @@ chopsticks-optimal-play/
 │       ├── game.py         # game rules, graph search and attractors
 │       └── play.py         # play against the bot in the terminal
 ├── tests/
-│   └── test_game.py        # rule checks and the headline result
+│   └── test_game.py        # rule checks and the main result
 ├── LICENSE
 ├── README.md
 └── pyproject.toml

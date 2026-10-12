@@ -1,8 +1,8 @@
 # Chopsticks
 
-This started after a game of chopsticks with someone, I noticed that we often got stuck in loops, but thinking about the game, it fealt like working backwards from a winning state, you could push things pretty far, so I was curious if there is any real strategy, or does perfectly play just end in a loop. The game is small enough to solve by brute force instead of thinking hard about it, so that's what this is.
+This started after a game of chopsticks with someone, I noticed that we often got stuck in loops, but thinking about the game, it felt like working backwards from a winning state, you could push things pretty far, so I was curious if there is any real strategy, or does perfect play just end in a loop. The game is small enough to solve by brute force instead of thinking hard about it, so that's what this is.
 
-**Short version:** the second player can always force a win. Going first is a
+**Summary:** the second player can always force a win. Going first is a
 (slow) loss.
 
 The numbers below all come from [`notebooks/main.ipynb`](../notebooks/main.ipynb),
@@ -74,7 +74,7 @@ hands and flip the turn and you get the mirror-image position.
 
 ![Every reachable position, coloured by who can force a win](img/solved-game.png)
 
-### The headline: going second wins
+### Going second wins
 
 The opening position is in **player 1's** attractor. Whatever player 0 does, player
 1 can force a win in at most **26 moves** (13 each).
@@ -150,7 +150,7 @@ is a forced win, and the draws all come down to one loop that's easy to fall out
 In practice though the winning lines are long enough that you'd want the table in
 front of you. Or the bot (see the README).
 
-## Bug hunt
+## Bugs
 
 The first version of the code got different answers (432 reachable positions, 84 in
 player 0's winning set). It had a few rule bugs that made the game a lot weirder:
