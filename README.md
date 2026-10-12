@@ -1,21 +1,47 @@
 # Optimal Play in Chopsticks
-**This project is a work in progress.**
 
-This is an independent research project, undertaken out of personal interest and curiosity. The repository is not a polished Python package, and the accompanying paper is incomplete and unreviewed. It contains exploratory ideas-many of which are rough or unfinished. The code reflects the development process and is not intended for reuse.
+This started after a game of chopsticks with someone: is there any real strategy, or does the game just go round in circles until someone messes up? The game is small enough to brute-force, so rather than think about it too hard, I just checked with code.
 
-## Project Overview
-This project explores the game of *Chopsticks*, a simple two-player hand game. The primary goal was to investigate whether there was a way to guarantee a win. To do so, I implemented a simple class for the game, and exhaustively searched the transition graph under optimal responses. We found no meaningful attractors beyond trivial terminal states, suggesting that the game may lack interesting long-run dynamics under best play.
+**The answer: the second player can always force a win.** Only 20 of the 382 reachable positions are draws, and they form one narrow loop that's very easy to fall off.
 
----
+![Every reachable position, coloured by who can force a win](notes/img/solved-game.png)
 
-## Background and Motivation
-This project was a single late-night effort because I couldn't figure out if there was a way of forcing a win, I figured that the game would probably loop under perfect play but I wasn't sure. I figured that it wouldn't be that hard to do a quick search and the entire implementation and searh only took a few hours. I later cleaned the repository up because I thought the project was a nice bit of fun.
+The full write-up, including how many positions there should be and why some can never happen, is in [notes/findings.md](notes/findings.md). The notebook [notebooks/main.ipynb](notebooks/main.ipynb) has the code behind every number and plot.
 
----
+## How it works
 
-## Installation
+Every legal position (both players' hands plus whose turn it is) is a node in a graph, and every legal move is an edge. A breadth-first search from `(1, 1)` vs `(1, 1)` finds all reachable positions.
 
-Clone the repository and install in editable mode:
+Then for each player we compute an **attractor**: the positions from which they can force a win. It's built backwards from finished games:
+
+- A_0 is the set of positions where the player has already won.
+- A position joins A_{k+1} if it's the player's turn and *some* move lands in A_k, or it's the opponent's turn and *every* move does.
+
+The layer k at which a position joins is the number of moves the winner needs. Positions in neither attractor are draws.
+
+## Play against the bot
+
+There's a bot that plays perfectly. It takes the fastest win when it has one, and drags the game out as long as it can when it doesn't.
+
+```bash
+pip install -e .
+chopsticks            # you go second, so you can win (if you find the line)
+chopsticks --first    # you go first, so you will lose
+chopsticks --hints    # shows who can force a win before each move
+```
+
+Each turn you get a numbered list of your moves:
+
+```text
+  bot: (1, 1)
+  you: (1, 1)
+
+  1. tap     their (1, 1) -> (2, 1)
+  2. split   your (1, 1) -> (0, 2)
+your move:
+```
+
+## Quick start
 
 ```bash
 git clone https://github.com/dbruwel/chopsticks-optimal-play.git
@@ -23,37 +49,53 @@ cd chopsticks-optimal-play
 pip install -e .
 ```
 
----
+Then in Python:
 
-## Repository Structure
+```python
+from chopsticks_optimal_play import (
+    ChopsticksGame,
+    build_adjacency_matrix,
+    compute_attractor,
+)
 
+start = ChopsticksGame()
+adjacency, nodes = build_adjacency_matrix(start)
+player_1 = compute_attractor(adjacency, nodes, player=1)
+
+print(f"Reachable states: {len(nodes)}")             # 382
+print(f"Player 1 wins from the start in {player_1[0]} moves")  # 26
 ```
+
+To run the notebook or the tests:
+
+```bash
+pip install -e ".[notebook,dev]"
+jupyter lab notebooks/main.ipynb
+pytest
+```
+
+## Repository layout
+
+```text
 chopsticks-optimal-play/
-│
-├── notebooks/                # Jupyter notebooks for exploration and results
-│   └── *.ipynb
-│
-├── paper/                    # Draft paper, figures, and supplementary material
-│   ├── main.pdf
-│   └── ...
-│
+├── notebooks/
+│   └── main.ipynb          # the exploration: plots, the opening, the draw loop
+├── notes/
+│   ├── findings.md         # the write-up
+│   └── img/                # figures exported from the notebook
 ├── src/
 │   └── chopsticks_optimal_play/
 │       ├── __init__.py
-│       └── ...
-│
-├── setup.py
-├── pyproject.toml
-└── README.md
+│       ├── bot.py          # the optimal bot
+│       ├── game.py         # game rules, graph search and attractors
+│       └── play.py         # play against the bot in the terminal
+├── tests/
+│   └── test_game.py        # rule checks and the headline result
+├── LICENSE
+├── README.md
+└── pyproject.toml
 ```
-
----
-
-## Disclamer
-This is research-grade code, not a production package. It was completed over a few weeks to explore a specific question of interest. The project does not aim to be novel or comprehensive and was not initially intended for public release. It uses various freely available Python packages under open licenses.
-
----
 
 ## License
 
-MIT License. See `LICENSE` for details.
+MIT License. See the [LICENSE](LICENSE) file for details.
